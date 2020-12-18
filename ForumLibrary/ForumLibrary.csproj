@@ -8,4 +8,18 @@
     <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.1" />
     <PackageReference Include="Dapper" Version="2.0.78" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Forum.db" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Messages\" />
+    <Folder Include="Threads\" />
+    <Folder Include="Topics\" />
+    <Folder Include="Users\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Forum.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
