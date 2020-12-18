@@ -8,10 +8,10 @@ namespace ForumLibrary
 {
     public class Users
     {
-        public int userId { get; }
+        public int userId { get; set; }
         public string nickName { get; set; }
-        public string firstName { get; set; }
-        public string lastName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string dateCreated { get; set; }
     }
 }

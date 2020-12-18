@@ -6,7 +6,10 @@ namespace ForumUI
     {
         static void Main(string[] args)
         {
+
+
             var instance = new ForumViewer();
+            
             instance.Run();
         }
     }
