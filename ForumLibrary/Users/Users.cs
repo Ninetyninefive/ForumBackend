@@ -13,8 +13,5 @@ namespace ForumLibrary
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string dateCreated { get; set; }
-        List<Topics> Topics { get; set; }
-        List<Threads> Threads { get; set; }
-        List<Messages> Messages { get; set; }
     }
 }

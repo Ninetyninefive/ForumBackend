@@ -8,12 +8,11 @@ namespace ForumLibrary
 {
     public class Threads
     {
-        public int threadId { get; }
-        public int topicId { get; }
-        public int ownerId { get; }
-        public string lastPostDate { get; set; }
+        public int threadId { get; set; }
+        public int topicId { get; set; }
+        public int ownerId { get; set; }
+        public string lastPostDate { get; }
         public string subject { get; set; }
         public int visible { get; set; }
-        List<Messages> Messages { get; set; }
     }
 }
