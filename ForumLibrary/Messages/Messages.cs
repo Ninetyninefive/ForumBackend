@@ -12,7 +12,6 @@ namespace ForumLibrary
         public int threadId { get; set; }
         public int ownerId { get; set; }
         public string dateCreated { get; set; }
-        public string name { get; set; }
         public string message { get; set; }
         public int visible { get; set; }
     }

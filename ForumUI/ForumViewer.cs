@@ -73,16 +73,27 @@ namespace ForumUI
             return newThread;
         }
 
-        /*
-        public int topicId { get; set; }
-        public int ownerId { get; set; }
-        public string subject { get; set; }
-        public int visible { get; set; }
-        */
+        public Messages CreateMessage(Threads currentThread, Users currentUser)
+        {
+
+            Console.Clear();
+            Console.WriteLine("Enter message:");
+            var inputNewMessage = Console.ReadLine();
+
+            var newMessage = new Messages();
+
+            newMessage.threadId = currentThread.threadId;
+            newMessage.ownerId = currentUser.userId;
+           
+            newMessage.message = inputNewMessage;
+            newMessage.visible = 1;
+
+            return newMessage;
+        }
 
         public void Run()
         {
-            var message = "";
+            var messageMenu = "";
             Users currentUser = null;
             Topics currentTopic = null;
             Threads currentThread = null;
@@ -121,7 +132,7 @@ namespace ForumUI
                     }
                     else
                     {
-                        message = "Try again. [Enter user nickname or ID] or type 'create' to create a new user.";
+                        messageMenu = "Try again. [Enter user nickname or ID] or type 'create' to create a new user.";
                         inputName = Console.ReadLine();
                     }
                 }
@@ -129,7 +140,8 @@ namespace ForumUI
             Console.Clear();
             Console.WriteLine($"Logged on as: {currentUser.nickName} ID: {currentUser.userId}");
 
-            Console.WriteLine("Select Topic\n");
+            messageMenu = "Select Topic\n";
+            Console.WriteLine(messageMenu);
             foreach (var item in topics)
             {
                 if (item.visible == 1)
@@ -155,7 +167,7 @@ namespace ForumUI
                     }
                     else
                     {
-                        message = "Try again. [Enter topic name or ID to select or 'create' to start new topic.]";
+                        messageMenu = "Try again. [Enter topic name or ID to select or 'create' to start new topic.]";
                         inputTopicName = Console.ReadLine();
                     }
                 }
@@ -171,6 +183,8 @@ namespace ForumUI
                     Console.WriteLine($"{thread.threadId} {thread.subject} {thread.ownerId}");
             }
 
+            messageMenu = "Select Thread\n";
+            Console.WriteLine(messageMenu);
             while (currentThread == null)
             {
                 var inputThreadName = Console.ReadLine();
@@ -191,12 +205,51 @@ namespace ForumUI
                     }
                     else
                     {
-                        message = "Try again. [Enter thread name or ID to select or 'create' to start new thread.]";
+                        messageMenu = "Try again. [Enter thread name or ID to select or 'create' to start new thread.]";
                         inputThreadName = Console.ReadLine();
                     }
                 }
             }
 
+
+            Console.Clear();
+            Console.WriteLine($"Logged on as: {currentUser.nickName} ID: {currentUser.userId}");
+
+            Console.WriteLine($"Selected Topic ID:{currentTopic.topicId} Name:{currentTopic.name} Desc:{currentTopic.description} Created:{currentTopic.dateCreated}");
+            Console.WriteLine($"Selected Thread ID:{currentThread.threadId} Subject:{currentThread.subject} Desc:{currentThread.ownerId} Created:{currentThread.lastPostDate}");
+            foreach (var message in messages)
+            {
+                if (message.visible == 1 && message.threadId == currentThread.threadId)
+                    Console.WriteLine($"{message.messageId} {message.message} {message.ownerId} {message.dateCreated}");
+            }
+
+            messageMenu = "'create' // 'edit' // 'delete'\n";
+            Console.WriteLine(messageMenu);
+            while (currentMessage == null)
+            {
+                var inputMessageName = Console.ReadLine();
+                foreach (var message in messages)
+                {
+                    if (inputMessageName == "create")
+                    {
+                        currentMessage = CreateMessage(currentThread, currentUser);
+                    }
+                    if (inputMessageName == "back")
+                    {
+                        //RELOAD
+                        Run();
+                    }
+                    if (inputMessageName == message.message || inputMessageName == message.messageId.ToString())
+                    {
+                        currentMessage = message;
+                    }
+                    else
+                    {
+                        messageMenu = "Try again. [Enter thread name or ID to select or 'create' to start new thread.]";
+                        inputMessageName = Console.ReadLine();
+                    }
+                }
+            }
         }
     }
 }
