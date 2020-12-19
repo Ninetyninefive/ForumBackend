@@ -124,11 +124,14 @@ namespace ForumUI
             }
 
             /// REQUIRED USE OF JOIN START///
-            Console.WriteLine("DUMP WITH JOIN ////// ");
-            var dump = repo.ShowAllUserMessages();
+            Console.WriteLine("DUMP WITH JOIN ////// LIST OF USERS WITH MESSAGES IN DB");
+            var dump = repo.ShowAllUsersThatHasMessages();
             foreach (var item in dump)
             {
-                Console.WriteLine(item);
+                foreach (var thing in item)
+                {
+                    Console.WriteLine(thing);
+                }
             }
             Console.WriteLine("Any key to continue < ... >");
             Console.ReadKey();

@@ -102,7 +102,7 @@ namespace ForumLibrary
             connection.Execute(sql, messageToDeleteByID);
         }
 
-        public IList<string> ShowAllUserMessages()
+        public List<string> ShowAllUsersThatHasMessages()
         {
             using var connection = new SqliteConnection(_connectionString);
             var output = connection.Query<string>("SELECT * FROM Users AS U JOIN Messages AS M ON U.userId = M.ownerId");
