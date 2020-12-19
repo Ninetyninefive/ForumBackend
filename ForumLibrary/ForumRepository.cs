@@ -13,27 +13,27 @@ namespace ForumLibrary
         public IList<Users> GetUsers()
         {
             using var connection = new SqliteConnection(_connectionString);
-            var output = connection.Query<Users>("SELECT * FROM Users");
+            var output = connection.Query<Users>("SELECT * FROM Users;");
             return output.ToList();
         }
 
         public IList<Topics> GetTopics()
         {
             using var connection = new SqliteConnection(_connectionString);
-            var output = connection.Query<Topics>("SELECT * FROM Topics");
+            var output = connection.Query<Topics>("SELECT * FROM Topics;");
             return output.ToList();
         }
 
         public IList<Threads> GetThreads()
         {
             using var connection = new SqliteConnection(_connectionString);
-            var output = connection.Query<Threads>("SELECT * FROM Topics");
+            var output = connection.Query<Threads>("SELECT * FROM Threads;");
             return output.ToList();
         }
         public IList<Messages> GetMessages()
         {
             using var connection = new SqliteConnection(_connectionString);
-            var output = connection.Query<Messages>("SELECT * FROM Topics");
+            var output = connection.Query<Messages>("SELECT * FROM Messages;");
             return output.ToList();
         }
 
@@ -48,7 +48,7 @@ namespace ForumLibrary
         public void DeleteUser(Users userToDeleteById)
         {
             using var connection = new SqliteConnection(_connectionString);
-            var sql = $"DELETE FROM Users WHERE userId = @userId";
+            var sql = $"DELETE FROM Users WHERE userId = @userId;";
             connection.Execute(sql, userToDeleteById);
         }
 
@@ -56,56 +56,56 @@ namespace ForumLibrary
         {
             using var connection = new SqliteConnection(_connectionString);
             var sql = $"INSERT INTO Topics (ownerId, dateCreated, name, description, visible  " +
-                $"VALUES (@ownerId, DATE('now'), @name, @description, @visible)";
+                $"VALUES (@ownerId, DATE('now'), @name, @description, @visible);";
             connection.Execute(sql, newTopic);
         }
 
         public void DeleteTopic(Topics topicToDeleteByID)
         {
             using var connection = new SqliteConnection(_connectionString);
-            var sql = $"DELETE FROM Topics WHERE topicId = @topicId";
+            var sql = $"DELETE FROM Topics WHERE topicId = @topicId;";
             connection.Execute(sql, topicToDeleteByID);
         }
         public void NewThread(Threads newThread)
         {
             using var connection = new SqliteConnection(_connectionString);
             var sql = $"INSERT INTO Threads (topicId, ownerId, dateCreated, subject, visible)" +
-                $"VALUES (@topicID, @ownerId, DATE('now'), @subject, @visible)";
+                $"VALUES (@topicID, @ownerId, DATE('now'), @subject, @visible);";
             connection.Execute(sql, newThread);
         }
 
         public void DeleteThread(Threads threadToDeleteByID)
         {
             using var connection = new SqliteConnection(_connectionString);
-            var sql = $"DELETE FROM Topics WHERE threadID = @threadId";
+            var sql = $"DELETE FROM Topics WHERE threadID = @threadId;";
             connection.Execute(sql, threadToDeleteByID);
         }
         public void NewMessage(Messages newMessage)
         {
             using var connection = new SqliteConnection(_connectionString);
             var sql = $"INSERT INTO Messages (threadId, ownerId, dateCreated, message, visible)" +
-                $"VALUES (@threadId, @ownerId, DATE('now'), @message, @visible)";
+                $"VALUES (@threadId, @ownerId, DATE('now'), @message, @visible);";
             connection.Execute(sql, newMessage);
         }
 
         public void EditMessage(Messages editMessage)
         {
             using var connection = new SqliteConnection(_connectionString);
-            var sql = $"UPDATE Messages SET message = @message WHERE messageId = @messageId";
+            var sql = $"UPDATE Messages SET message = @message WHERE messageId = @messageId;";
             connection.Execute(sql, editMessage);
         }
 
         public void DeleteMessage(Messages messageToDeleteByID)
         {
             using var connection = new SqliteConnection(_connectionString);
-            var sql = $"DELETE FROM Messages WHERE messageId = @messageId";
+            var sql = $"DELETE FROM Messages WHERE messageId = @messageId;";
             connection.Execute(sql, messageToDeleteByID);
         }
 
         public List<string> ShowAllUsersThatHasMessages()
         {
             using var connection = new SqliteConnection(_connectionString);
-            var output = connection.Query<string>("SELECT * FROM Users AS U JOIN Messages AS M ON U.userId = M.ownerId");
+            var output = connection.Query<string>("SELECT * FROM Users AS U JOIN Messages AS M ON U.userId = M.ownerId;");
             return output.ToList();
         }
     }
