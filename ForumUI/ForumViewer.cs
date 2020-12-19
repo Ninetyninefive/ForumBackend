@@ -78,13 +78,12 @@ namespace ForumUI
 
             Console.Clear();
             Console.WriteLine("Enter NEW message:");
-            var messageToInsert = Console.ReadLine();
-            var editMessage = new Messages();
-
-            editMessage.ownerId = currentUser.userId;
-            editMessage.message = messageToInsert;
             
-            return editMessage;
+            var messageToInsert = Console.ReadLine();
+            messageToEdit.message = messageToInsert;
+            messageToEdit.ownerId = currentUser.userId;
+            
+            return messageToEdit;
         }
         public Messages CreateMessage(Threads currentThread, Users currentUser)
         {
@@ -118,22 +117,43 @@ namespace ForumUI
             var threads = repo.GetThreads();
             var messages = repo.GetMessages();
 
+            if(users.Count() == 0)
+            {
+                var defUser = CreateUser();
+                repo.AddUser(defUser);
+            }
+
+            /// REQUIRED USE OF JOIN START///
+            Console.WriteLine("DUMP WITH JOIN ////// ");
+            var dump = repo.ShowAllUserMessages();
+            foreach (var item in dump)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("Any key to continue < ... >");
+            Console.ReadKey();
+            /// REQUIRED USE OF JOIN END///
+
+
             Console.WriteLine("\n\nWelcome to ForumViewer ['back' to go back]");
             Console.WriteLine("Who are you? (enter nickname) [or type 'create' to add new forum user]\n");
             Console.WriteLine("UserList [create - back - delete]\n");
             foreach (var item in users)
             {
-                    Console.WriteLine($" ID: {item.userId} Nickname:{item.nickName} Full Name[{item.FirstName} {item.LastName} Joined: {item.dateCreated}]");
+                    Console.WriteLine($" ID: {item.userId} Nickname:{item.nickName} Full Name[{item.FirstName} {item.LastName}] Joined: {item.dateCreated}");
             }
             while (currentUser == null)
             {
+
                 var inputName = Console.ReadLine();
                 foreach (var user in users)
                 {
                     if (inputName == "create")
                     {
-                        currentUser = CreateUser();
-                        repo.AddUser(currentUser);
+                        var newUser = CreateUser();
+                        repo.AddUser(newUser);
+                        users = repo.GetUsers();
+                        Run();
                     }
                     if(inputName == "back")
                     {
@@ -149,6 +169,7 @@ namespace ForumUI
                             if(item.userId == Convert.ToInt32(deletionId))
                             {
                                 repo.DeleteUser(item);
+                                Run();
                             }
                         }
                     }
@@ -182,6 +203,7 @@ namespace ForumUI
                     {
                         var newTopic = CreateTopic(currentUser);
                         repo.NewTopic(newTopic);
+                        Run();
                     }
                     if(inputTopicName == "back")
                     {
@@ -197,6 +219,7 @@ namespace ForumUI
                             if (item.topicId == Convert.ToInt32(deletionId))
                             {
                                 repo.DeleteTopic(item);
+                                Run();
                             }
                         }
                     }
@@ -232,6 +255,7 @@ namespace ForumUI
                     {
                         var newThread = CreateThread(currentTopic, currentUser);
                         repo.NewThread(newThread);
+                        Run();
                     }
                     if (inputThreadName == "back")
                     {
@@ -247,6 +271,7 @@ namespace ForumUI
                             if (item.threadId == Convert.ToInt32(deletionId))
                             {
                                 repo.DeleteThread(item);
+                                Run();
                             }
                         }
                     }
@@ -285,6 +310,7 @@ namespace ForumUI
                     {
                         var newMessage = CreateMessage(currentThread, currentUser);
                         repo.NewMessage(newMessage);
+                        Run();
                     }
                     if (inputMessageName == "back")
                     {
@@ -300,6 +326,7 @@ namespace ForumUI
                             if (item.messageId == Convert.ToInt32(deletionId))
                             {
                                 repo.DeleteMessage(item);
+                                Run();
                             }
                         }
                     }
@@ -313,6 +340,7 @@ namespace ForumUI
                             {
                                 var editMessage = EditMessage(item, currentUser);
                                 repo.EditMessage(editMessage);
+                                Run();
                             }
                         }
                     }

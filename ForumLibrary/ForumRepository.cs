@@ -40,8 +40,8 @@ namespace ForumLibrary
         public void AddUser(Users newUser)
         {
             using var connection = new SqliteConnection(_connectionString);
-            var sql = $"INSERT INTO Users (nickname, firstname, lastname, dateCreated) " +
-                $"VALUES (@nickName, @firstName, @lastName, DATE('now')";
+            var sql = $"INSERT INTO Users (nickname,Firstname,Lastname, dateCreated)" +
+                $"VALUES (@nickName, @FirstName, @LastName, DATE('now'))";
             connection.Execute(sql, newUser);
         }
 
@@ -56,7 +56,7 @@ namespace ForumLibrary
         {
             using var connection = new SqliteConnection(_connectionString);
             var sql = $"INSERT INTO Topics (ownerId, dateCreated, name, description, visible  " +
-                $"VALUES (@ownerId, DATE('now'), @name, @description, @visible";
+                $"VALUES (@ownerId, DATE('now'), @name, @description, @visible)";
             connection.Execute(sql, newTopic);
         }
 
@@ -99,6 +99,13 @@ namespace ForumLibrary
             using var connection = new SqliteConnection(_connectionString);
             var sql = $"DELETE FROM Messages WHERE messageId = @messageId";
             connection.Execute(sql, messageToDeleteByID);
+        }
+
+        public IList<string> ShowAllUserMessages()
+        {
+            using var connection = new SqliteConnection(_connectionString);
+            var output = connection.Query<string>("SELECT * FROM Users AS U JOIN Messages AS M ON U.userId = M.ownerId");
+            return output.ToList();
         }
     }
 }
