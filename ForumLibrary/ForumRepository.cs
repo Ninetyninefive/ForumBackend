@@ -40,8 +40,8 @@ namespace ForumLibrary
         public void AddUser(Users newUser)
         {
             using var connection = new SqliteConnection(_connectionString);
-            var sql = $"INSERT INTO Users (nickname,Firstname,Lastname, dateCreated)" +
-                $"VALUES (@nickName, @FirstName, @LastName, DATE('now'))";
+            var sql = $"INSERT INTO Users (nickname,Firstname,Lastname, dateCreated) " +
+                $"VALUES (@nickName, @FirstName, @LastName, DATE('now'));";
             connection.Execute(sql, newUser);
         }
 
@@ -55,7 +55,7 @@ namespace ForumLibrary
         public void NewTopic(Topics newTopic)
         {
             using var connection = new SqliteConnection(_connectionString);
-            var sql = $"INSERT INTO Topics (ownerId, dateCreated, name, description, visible  " +
+            var sql = $"INSERT INTO Topics (ownerId, dateCreated, name, description, visible) " +
                 $"VALUES (@ownerId, DATE('now'), @name, @description, @visible);";
             connection.Execute(sql, newTopic);
         }
@@ -69,7 +69,7 @@ namespace ForumLibrary
         public void NewThread(Threads newThread)
         {
             using var connection = new SqliteConnection(_connectionString);
-            var sql = $"INSERT INTO Threads (topicId, ownerId, dateCreated, subject, visible)" +
+            var sql = $"INSERT INTO Threads (topicId, ownerId, dateCreated, subject, visible) " +
                 $"VALUES (@topicID, @ownerId, DATE('now'), @subject, @visible);";
             connection.Execute(sql, newThread);
         }
@@ -83,7 +83,7 @@ namespace ForumLibrary
         public void NewMessage(Messages newMessage)
         {
             using var connection = new SqliteConnection(_connectionString);
-            var sql = $"INSERT INTO Messages (threadId, ownerId, dateCreated, message, visible)" +
+            var sql = $"INSERT INTO Messages (threadId, ownerId, dateCreated, message, visible) " +
                 $"VALUES (@threadId, @ownerId, DATE('now'), @message, @visible);";
             connection.Execute(sql, newMessage);
         }
