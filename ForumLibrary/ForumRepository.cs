@@ -87,6 +87,7 @@ namespace ForumLibrary
                 $"VALUES (@threadId, @ownerId, DATE('now'), @message, @visible)";
             connection.Execute(sql, newMessage);
         }
+
         public void EditMessage(Messages editMessage)
         {
             using var connection = new SqliteConnection(_connectionString);
