@@ -69,8 +69,8 @@ namespace ForumLibrary
         public void NewThread(Threads newThread)
         {
             using var connection = new SqliteConnection(_connectionString);
-            var sql = $"INSERT INTO Threads (topicId, ownerId, dateCreated, subject, visible) " +
-                $"VALUES (@topicID, @ownerId, DATE('now'), @subject, @visible);";
+            var sql = $"INSERT INTO Threads (topicId, ownerId, subject, visible) " +
+                $"VALUES (@topicID, @ownerId, @subject, @visible);";
             connection.Execute(sql, newThread);
         }
 

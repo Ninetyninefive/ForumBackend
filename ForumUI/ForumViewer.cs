@@ -69,9 +69,6 @@ namespace ForumUI
         {
 
             Console.Clear();
-            Console.WriteLine("Enter thread name:");
-            var inputNewThreadName = Console.ReadLine();
-
             Console.WriteLine("Enter thread subject:");
             var inputNewThreadSubject = Console.ReadLine();
 
@@ -136,18 +133,18 @@ namespace ForumUI
                 users = repo.GetUsers();
             }
 
-            Console.WriteLine("\n\nWelcome to ForumViewer ['back' to go back]");
-            Console.WriteLine("Who are you? (enter nickname)\n");
-
-            messageMenu = "Select User: [ID or nickname to select -- 'create' -- 'delete']\n";
-            Console.WriteLine(messageMenu);
-            Console.WriteLine($"\n\nActive Users:");
-            foreach (var item in users)
-            {
-                    Console.WriteLine($"\t {item.nickName} (UserID: {item.userId} Full Name[{item.FirstName} {item.LastName}] Joined: {item.dateCreated})");
-            }
+            
             while (currentUser == null)
             {
+                Console.WriteLine("\n\nWelcome to ForumViewer ['back' to go back]");
+
+                Console.WriteLine($"\n\nID\tNickname\tFull name\tJoin Date\n");
+                foreach (var item in users)
+                {
+                    Console.WriteLine($"{item.userId,-7} {item.nickName,-15} {item.FirstName} {item.LastName,-8} {item.dateCreated,5}");
+                }
+                messageMenu = "\nSelect User: [ID or nickname to select -- 'create' -- 'delete']\n";
+                Console.WriteLine(messageMenu);
 
                 var inputName = Console.ReadLine();
                 
@@ -156,16 +153,14 @@ namespace ForumUI
                         var newUser = CreateUser();
                         repo.AddUser(newUser);
                         users = repo.GetUsers();
-                        continue;
                     }
                     if(inputName == "back")
                     {
                         currentUser = null;
-                        continue;
                     }
                     if (inputName == "delete")
                     {
-                        Console.WriteLine("\nEnter user ID to delete");
+                        Console.WriteLine("\nEnter user ID to delete:");
                         var deletionId = Console.ReadLine();
                         foreach (var item in users)
                         {
@@ -176,7 +171,6 @@ namespace ForumUI
                                 currentTopic = null;
                                 currentThread = null;
                                 currentMessage = null;
-                                continue;
                             }
                         }
                         users = repo.GetUsers();
@@ -189,19 +183,20 @@ namespace ForumUI
                     }
                 }
             }
-            Console.Clear();
-            Console.WriteLine($"Logged on as: {currentUser.nickName} ID: {currentUser.userId}");
-
-            messageMenu = "Select Topic [create - back - delete]\n";
-            Console.WriteLine(messageMenu);
-            Console.WriteLine($"\n\nActive Topics:");
-            foreach (var topic in topics)
-            {
-                if (topic.visible == 1)
-                    Console.WriteLine($"\t [{topic.name}]  \t(ID: {topic.topicId} Description:{topic.description} [Owner: {GetUserNameFromID(users, topic.ownerId)} Created:{topic.dateCreated}])");
-            }
+            
             while (currentTopic == null)
             {
+                Console.Clear();
+                Console.WriteLine($"Logged on as: {currentUser.nickName} ID: {currentUser.userId}");
+                Console.WriteLine($"\n\nID\tTOPIC\t\t    Description\t\t\t\t\t\t\t Owner\t\t Created\n");
+                foreach (var topic in topics)
+                {
+                    if (topic.visible == 1)
+                        Console.WriteLine($"{topic.topicId,-7} {topic.name,-20}{topic.description,-60} {GetUserNameFromID(users, topic.ownerId),-15} {topic.dateCreated,-10}");
+                }
+                messageMenu = "\nSelect Topic [ID or NAME to select -- 'create' -- 'delete' -- 'back']\n";
+                Console.WriteLine(messageMenu);
+                
                 var inputTopicName = Console.ReadLine();
                 
                     if (inputTopicName == "create")
@@ -212,12 +207,11 @@ namespace ForumUI
                         currentThread = null;
                         currentMessage = null;
                         topics = repo.GetTopics();
-                        continue;
                     }
                     if(inputTopicName == "back")
                     {
                         currentTopic = null;
-                        continue;
+                    continue;
                     }
                     if(inputTopicName == "delete")
                     {
@@ -231,7 +225,6 @@ namespace ForumUI
                                 currentTopic = null;
                                 currentThread = null;
                                 currentMessage = null;
-                                continue;
                             }
                         }
                         topics = repo.GetTopics();
@@ -246,20 +239,20 @@ namespace ForumUI
                 }
             }
 
-            Console.Clear();
-            Console.WriteLine($"Browsing as: {currentUser.nickName} [ID: {currentUser.userId}]");
-            Console.WriteLine($"Selected Topic ID:{currentTopic.topicId} Name:{currentTopic.name} Desc:{currentTopic.description} Created:{currentTopic.dateCreated}");
-
-            messageMenu = "Select Thread [create - back - delete]\n";
-            Console.WriteLine(messageMenu);
-            Console.WriteLine($"\n\nActive Threads:");
-            foreach (var thread in threads)
-            {
-                if (thread.topicId == currentTopic.topicId)
-                    Console.WriteLine($"\t [{thread.threadId}] Subject: {thread.subject} (By: {GetUserNameFromID(users, thread.ownerId)})");
-            }
             while (currentThread == null)
             {
+                Console.Clear();
+                Console.WriteLine($"Browsing as: {currentUser.nickName} [ID: {currentUser.userId}]");
+                Console.WriteLine($"Selected Topic ID:{currentTopic.topicId} Name:{currentTopic.name} Desc:{currentTopic.description} Created:{currentTopic.dateCreated}");
+
+                Console.WriteLine($"\n\nID\tSubject\t\t\t\t\t\t   Started by\n");
+                foreach (var thread in threads)
+                {
+                    if (thread.topicId == currentTopic.topicId)
+                        Console.WriteLine($"{thread.threadId,-7} {thread.subject,-50} {GetUserNameFromID(users, thread.ownerId), -15}");
+                }
+                messageMenu = "\nSelect Thread [ID or NAME to select -- 'create' -- 'delete' -- 'back']\n";
+                Console.WriteLine(messageMenu);
                 var inputThreadName = Console.ReadLine();
                 
                     if (inputThreadName == "create")
@@ -269,13 +262,12 @@ namespace ForumUI
                         currentThread = null;
                         currentMessage = null;
                         threads = repo.GetThreads();
-                        continue;
                     }
                     if (inputThreadName == "back")
                     {
                         currentThread = null;
-                        continue;
-                    }
+                    continue;
+                }
                     if (inputThreadName == "delete")
                     {
                         Console.WriteLine("Enter THREAD ID to delete");
@@ -287,7 +279,6 @@ namespace ForumUI
                                 repo.DeleteThread(item);
                                 currentThread = null;
                                 currentMessage = null;
-                                continue;
                             }
                         }
                     threads = repo.GetThreads();
@@ -301,24 +292,22 @@ namespace ForumUI
                 }
             }
 
-            Console.Clear();
-            Console.WriteLine($"Logged on as: {currentUser.nickName} ID: {currentUser.userId}");
-            Console.WriteLine($"Topic Name:{currentTopic.name}ID:{currentTopic.topicId}  Desc:{currentTopic.description} Created:{currentTopic.dateCreated}");
-            Console.WriteLine($"Thread Subject:{currentThread.subject}ID:{currentThread.threadId}  Desc:{currentThread.ownerId} Created:{currentThread.lastPostDate}");
-
-            messageMenu = "Select Message [create - back - delete]\n";
-            Console.WriteLine(messageMenu);
-            Console.WriteLine($"\n\nActive Messages:");
-            foreach (var message in messages)
-            {
-                if (message.threadId == currentThread.threadId)
-                    Console.WriteLine($"\t {message.message} \t\t[Created: {message.dateCreated} By:{GetUserNameFromID(users, message.ownerId)}][ID:{message.messageId}]");
-            }
-
-            messageMenu = "'create' // 'edit' // 'delete'\n";
-            Console.WriteLine(messageMenu);
             while (currentMessage == null)
             {
+                Console.Clear();
+                Console.WriteLine($"Logged on as: {currentUser.nickName} ID: {currentUser.userId}");
+                Console.WriteLine($"Topic Name:{currentTopic.name}ID:{currentTopic.topicId}  Desc:{currentTopic.description} Created:{currentTopic.dateCreated}");
+                Console.WriteLine($"Thread Subject:{currentThread.subject}ID:{currentThread.threadId}  Owner:{GetUserNameFromID(users, currentThread.ownerId)} Created:{currentThread.lastPostDate}");
+
+                Console.WriteLine($"ID\n\nMessages\t\tDate\t\tCreated by:");
+                foreach (var message in messages)
+                {
+                    if (message.threadId == currentThread.threadId)
+                        Console.WriteLine($"[ID:{message.messageId}]\t\t{message.message} \t\t[Created: {message.dateCreated} By:{GetUserNameFromID(users, message.ownerId)}]");
+                }
+
+                messageMenu = "Messages [ID or NAME to select -- 'create' -- 'delete' -- 'back']\n";
+                Console.WriteLine(messageMenu);
                 var inputMessageName = Console.ReadLine();
                 
                     if (inputMessageName == "create")
@@ -327,12 +316,12 @@ namespace ForumUI
                         repo.NewMessage(newMessage);
                         currentMessage = null;
                         messages = repo.GetMessages();
-                        continue;
                     }
                     if (inputMessageName == "back")
                     {
                         currentMessage = null;
-                    }
+                    continue;
+                }
                     if (inputMessageName == "delete")
                     {
                         Console.WriteLine("Enter THREAD ID to delete");
@@ -343,7 +332,6 @@ namespace ForumUI
                             {
                                 repo.DeleteMessage(item);
                                 currentMessage = null;
-                                continue;
                             }
                         }
                         messages = repo.GetMessages();
@@ -359,8 +347,8 @@ namespace ForumUI
                                 var editMessage = EditMessage(item, currentUser);
                                 repo.EditMessage(editMessage);
                                 currentMessage = null;
-                                continue;
-                            }
+                            continue;
+                        }
                         }
                         messages = repo.GetMessages();
                     }
