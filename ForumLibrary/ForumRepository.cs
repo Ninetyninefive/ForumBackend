@@ -83,8 +83,8 @@ namespace ForumLibrary
         public void NewMessage(Messages newMessage)
         {
             using var connection = new SqliteConnection(_connectionString);
-            var sql = $"INSERT INTO Messages (threadId, ownerId, dateCreated, message, visible) " +
-                $"VALUES (@threadId, @ownerId, DATE('now'), @message, @visible);";
+            var sql = $"INSERT INTO Messages (threadId, ownerId, dateCreated, message, visible)" +
+                $"VALUES (@threadId, @ownerId, DATE('now'), @message, @visible)";
             connection.Execute(sql, newMessage);
         }
 
