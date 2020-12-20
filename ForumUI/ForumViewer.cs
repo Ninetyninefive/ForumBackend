@@ -88,6 +88,8 @@ namespace ForumUI
             
             return messageToEdit;
         }
+
+
         public Messages CreateMessage(Threads currentThread, Users currentUser)
         {
             Console.WriteLine("Enter message:");
@@ -103,6 +105,12 @@ namespace ForumUI
 
             return newMessage;
         }
+
+        public string ConCatFullName(string firstName, string lastName)
+        {
+            return firstName + " " + lastName;
+        }
+
         public void Run()
         {
             var messageMenu = "";
@@ -136,12 +144,12 @@ namespace ForumUI
                         Environment.Exit(-1);
                     }
                     Console.Clear();
-                    Console.WriteLine("\n\nWelcome to ForumViewer ['back' for TopView || 'quit' to Quit]");
+                    Console.WriteLine("\n\nWelcome to ForumViewer ['back' for User Selection || 'quit' to Quit]");
 
-                    Console.WriteLine($"\n\nID\tNickname\tFull name\tJoin Date\n");
+                    Console.WriteLine($"\n\nID\tNickname\tFull name\t  Join Date\n");
                     foreach (var item in users)
                     {
-                        Console.WriteLine($"{item.userId,-7} {item.nickName,-15} {item.FirstName} {item.LastName,-8} {item.dateCreated,5}");
+                        Console.WriteLine($"{item.userId,-7} {item.nickName,-15} {ConCatFullName(item.FirstName,item.LastName), -15}   {item.dateCreated,-5}");
                     }
                     messageMenu = "\nSelect User: [ID or nickname to select -- 'create' -- 'delete']\n";
                     Console.WriteLine(messageMenu);
@@ -312,14 +320,14 @@ namespace ForumUI
                     Console.Clear();
                     Console.WriteLine($"Browsing as: {currentUser.nickName} [ID: {currentUser.userId}]");
                     Console.WriteLine($"  >>TOPIC: {currentTopic.name} ({currentTopic.description}) ID:{currentTopic.topicId} Created:{currentTopic.dateCreated}");
-                    Console.WriteLine($"    >>THREAD: {currentThread.threadId} {currentThread.subject} ID:{currentThread.threadId}  Owner:{GetUserNameFromID(users, currentThread.ownerId)} Created:{currentThread.lastPostDate}");
+                    Console.WriteLine($"    >>THREAD: {currentThread.subject} ID:{currentThread.threadId}  Owner:{GetUserNameFromID(users, currentThread.ownerId)} Created:{currentThread.lastPostDate}");
 
-                    Console.WriteLine($"\n\nID\tMessages\t\t\t\t\t\t\t\t\t\t\t\t\t\t Created by\tDate\n");
+                    Console.WriteLine($"\n\nID\tDATE\t   CREATED BY\t    MESSAGE\n");
                     foreach (var message in messages)
                     {
                         if (message.threadId == currentThread.threadId)
                         {
-                            Console.WriteLine($"{message.messageId,-7} {message.message,-120} {GetUserNameFromID(users, message.ownerId),-15} {message.dateCreated,-10}");
+                            Console.WriteLine($"{message.messageId,-7} {message.dateCreated,-10} {GetUserNameFromID(users, message.ownerId),-15} {message.message,-120}");
                         }
                     }
 

@@ -91,7 +91,7 @@ namespace ForumLibrary
         public void EditMessage(Messages editMessage)
         {
             using var connection = new SqliteConnection(_connectionString);
-            var sql = $"UPDATE Messages SET message = @message WHERE messageId = @messageId;";
+            var sql = $"UPDATE Messages SET message = @message, lastModified = DATE('now') WHERE messageId = @messageId;";
             connection.Execute(sql, editMessage);
         }
 
