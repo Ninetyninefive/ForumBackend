@@ -70,14 +70,14 @@ namespace ForumLibrary
         {
             using var connection = new SqliteConnection(_connectionString);
             var sql = $"INSERT INTO Threads (topicId, ownerId, subject, visible) " +
-                $"VALUES (@topicID, @ownerId, @subject, @visible);";
+                $"VALUES (@topicId, @ownerId, @subject, @visible);";
             connection.Execute(sql, newThread);
         }
 
         public void DeleteThread(Threads threadToDeleteByID)
         {
             using var connection = new SqliteConnection(_connectionString);
-            var sql = $"DELETE FROM Topics WHERE threadID = @threadId;";
+            var sql = $"DELETE FROM Topics WHERE threadId = @threadId;";
             connection.Execute(sql, threadToDeleteByID);
         }
         public void NewMessage(Messages newMessage)
