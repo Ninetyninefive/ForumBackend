@@ -11,7 +11,6 @@ namespace ForumLibrary
         public int threadId { get; set; }
         public int topicId { get; set; }
         public int ownerId { get; set; }
-        public string lastPostDate { get; }
         public string subject { get; set; }
         public int visible { get; set; }
     }

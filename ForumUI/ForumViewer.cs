@@ -332,7 +332,7 @@ namespace ForumUI
                     Console.Clear();
                     Console.WriteLine($"Browsing as: {currentUser.nickName} [ID: {currentUser.userId}]");
                     Console.WriteLine($"  >>TOPIC: {currentTopic.name} ({currentTopic.description}) ID:{currentTopic.topicId} Created:{currentTopic.dateCreated}");
-                    Console.WriteLine($"    >>THREAD: {currentThread.subject} ID:{currentThread.threadId}  Owner:{GetUserNameFromID(users, currentThread.ownerId)} Created:{currentThread.lastPostDate}");
+                    Console.WriteLine($"    >>THREAD: {currentThread.subject} ID:{currentThread.threadId}  Owner:{GetUserNameFromID(users, currentThread.ownerId)}");
 
                     Console.WriteLine($"\n\nID\tDATE\t   CREATED BY\t    MESSAGE\n");
                     foreach (var message in messages)
