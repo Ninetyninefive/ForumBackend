@@ -146,17 +146,29 @@ namespace ForumUI
                     Console.Clear();
                     Console.WriteLine("\n\nWelcome to ForumViewer ['back' for User Selection || 'quit' to Quit]");
 
+
+                    Console.WriteLine("\n\tRecent Forum Activity:\n");
+                    var recent = repo.LatestMessages();
+
+                    foreach (var item in recent)
+                    {
+                       // if(item.dateCreated == DateTime.Now)
+                        Console.WriteLine($"\t\t{item.message} @({item.dateCreated} by {item.nickName})");
+                    }
+                    var time = DateTime.Now;
+                    Console.WriteLine(time);
+
                     Console.WriteLine($"\n\nID\tNickname\tFull name\t  Join Date\n");
                     foreach (var item in users)
                     {
                         Console.WriteLine($"{item.userId,-7} {item.nickName,-15} {ConCatFullName(item.FirstName,item.LastName), -15}   {item.dateCreated,-5}");
                     }
-                    messageMenu = "\nSelect User: [ID or nickname to select -- 'create' -- 'delete']\n";
+                    messageMenu = "\nSelect User: [ID or nickname to select -- 'new' -- 'delete']\n";
                     Console.WriteLine(messageMenu);
 
                     menuChoice = Console.ReadLine();
 
-                    if (menuChoice == "create")
+                    if (menuChoice == "new")
                     {
                         var newUser = CreateUser();
                         repo.AddUser(newUser);
@@ -207,12 +219,12 @@ namespace ForumUI
                         if (topic.visible == 1)
                             Console.WriteLine($"{topic.topicId,-7} {topic.name,-20}{topic.description,-60} {GetUserNameFromID(users, topic.ownerId),-15} {topic.dateCreated,-10}");
                     }
-                    messageMenu = "\nSelect Topic [ID or NAME to select -- 'create' -- 'delete' -- 'back']\n";
+                    messageMenu = "\nSelect Topic [ID or NAME to select -- 'new' -- 'delete' -- 'back']\n";
                     Console.WriteLine(messageMenu);
 
                     menuChoice = Console.ReadLine();
 
-                    if (menuChoice == "create")
+                    if (menuChoice == "new")
                     {
                         var newTopic = CreateTopic(currentUser);
                         repo.NewTopic(newTopic);
@@ -268,11 +280,11 @@ namespace ForumUI
                         if (thread.topicId == currentTopic.topicId)
                             Console.WriteLine($"{thread.threadId,-7} {thread.subject,-50} {GetUserNameFromID(users, thread.ownerId),-15}");
                     }
-                    messageMenu = "\nThread [ID or NAME to select -- 'create' -- 'delete' -- 'back']\n";
+                    messageMenu = "\nThread [ID or NAME to select -- 'new' -- 'delete' -- 'back']\n";
                     Console.WriteLine(messageMenu);
                     menuChoice = Console.ReadLine();
 
-                    if (menuChoice == "create")
+                    if (menuChoice == "new")
                     {
                         var newThread = CreateThread(currentTopic, currentUser);
                         repo.NewThread(newThread);
@@ -331,11 +343,11 @@ namespace ForumUI
                         }
                     }
 
-                    messageMenu = "\nMessages [ 'create' -- 'edit' -- 'delete' -- 'back' -- 'quit' ]\n";
+                    messageMenu = "\nMessages [ 'new' -- 'edit' -- 'delete' -- 'back' -- 'quit' ]\n";
                     Console.WriteLine(messageMenu);
                     menuChoice = Console.ReadLine();
 
-                    if (menuChoice == "create")
+                    if (menuChoice == "new")
                     {
                         var newMessage = CreateMessage(currentThread, currentUser);
                         repo.NewMessage(newMessage);

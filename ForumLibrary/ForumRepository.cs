@@ -102,10 +102,10 @@ namespace ForumLibrary
             connection.Execute(sql, messageToDeleteByID);
         }
 
-        public List<string> ShowAllUsersThatHasMessages()
+        public IList<History> LatestMessages()
         {
             using var connection = new SqliteConnection(_connectionString);
-            var output = connection.Query<string>("SELECT * FROM Users AS U JOIN Messages AS M ON U.userId = M.ownerId;");
+            var output = connection.Query<History>("SELECT messageId, nickname, message, Messages.dateCreated FROM Users  JOIN Messages ON Users.userId=Messages.ownerId;");
             return output.ToList();
         }
     }

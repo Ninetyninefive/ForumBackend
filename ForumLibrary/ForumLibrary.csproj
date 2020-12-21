@@ -13,6 +13,7 @@
     <Folder Include="Threads\" />
     <Folder Include="Topics\" />
     <Folder Include="Users\" />
+    <Folder Include="History\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Forum.db" />
