@@ -153,7 +153,7 @@ namespace ForumUI
                     foreach (var item in recent)
                     {
                        // if(item.dateCreated == DateTime.Now)
-                        Console.WriteLine($"\t\t{item.message} @({item.dateCreated} by {item.nickName})");
+                        Console.WriteLine($"\t\t{item.message, -70} @{item.dateCreated,-8} by {item.nickName,-15}");
                     }
                     var time = DateTime.Now;
                     Console.WriteLine(time);
