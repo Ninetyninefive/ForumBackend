@@ -152,7 +152,7 @@ namespace ForumUI
 
                     foreach (var item in recent)
                     {
-                       // if(item.dateCreated == DateTime.Now)
+                       // if(item.dateCreated == DateTime.Now) NEXTUP TO GET HISTORY OF LAST 3 POSTS WORKING --
                         Console.WriteLine($"\t\t{item.message, -70} @{item.dateCreated,-8} by {item.nickName,-15}");
                     }
                     var time = DateTime.Now;
